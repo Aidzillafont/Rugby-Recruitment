@@ -1,0 +1,43 @@
+1652797698745	geckodriver	INFO	Listening on 127.0.0.1:56039
+1652797701757	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileXJ1cp0"
+1652797702056	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileXJ1cp0\\search.json.mozlz4", (void 0)))
+1652797703503	Marionette	INFO	Listening on port 56062
+Read port: 56062
+1652797703594	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+console.error: services.settings: 
+  main/doh-providers Signature failed  InvalidSignatureError: Invalid content signature (main/doh-providers)
+console.error: services.settings: 
+  main/doh-providers local data was corrupted
+console.warn: services.settings: main/doh-providers Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/search-config Signature failed  InvalidSignatureError: Invalid content signature (main/search-config)
+console.error: services.settings: 
+  main/search-config local data was corrupted
+console.warn: services.settings: main/search-config Signature verified failed. Retry from scratch
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+1652800739953	geckodriver	INFO	Listening on 127.0.0.1:57701
+1652800742968	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofilenC2H4Q"
+1652800743293	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofilenC2H4Q\\search.json.mozlz4", (void 0)))
+1652800744833	Marionette	INFO	Listening on port 57727
+Read port: 57727
+1652800744905	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+console.error: services.settings: 
+  main/doh-providers Signature failed  InvalidSignatureError: Invalid content signature (main/doh-providers)
+console.error: services.settings: 
+  main/doh-providers local data was corrupted
+console.warn: services.settings: main/doh-providers Signature verified failed. Retry from scratch
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=2.2.3, line 1: TypeError: this.noticeContainer is null
+1652805639621	Marionette	INFO	Stopped listening on port 57727
+
+###!!! [Parent][PGPUParent] Error: RunMessage(msgname=PGPU::Msg_ShutdownVR) Channel closing: too late to send/recv, messages will be lost
+
