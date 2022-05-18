@@ -41,7 +41,7 @@ print('our label is imbalanced here so need to manage this: ', df["tries"].value
 from sklearn.ensemble import RandomForestClassifier
 
 #preprocess steps
-from sklearn.preprocessing import StandardScaler, OrdinalEncoder
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 
 #train test splitter and grid search
@@ -52,7 +52,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
 X = df[features]
-y = df[label].astype(str) #since we are going to use a classifier
+y = df[label].astype(int) #since we are going to use a classifier
 
 #numeric 
 numeric_feat = ['clean_breaks', 'defenders_beaten', 'offloads', 'carries', 'meters', 'avg_mpc', 'height', 'weight']
@@ -63,9 +63,8 @@ numeric_trans = Pipeline([
 
 #catagories
 cata_feat = ['position']
-#since our test will likely contain classes not in training 
-#we need to tell our ordinal encoder use -1 for unknown values 
-cata_trans = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1) 
+
+cata_trans = OneHotEncoder() 
 
 preprocessor = ColumnTransformer([
                                   ('num', numeric_trans, numeric_feat),
