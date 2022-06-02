@@ -56,7 +56,7 @@ def get_match_stats_from_link(browser, link):
     browser.get(url)
 
     #initialization wait since web page can take a while to load
-    time.sleep(60)
+    time.sleep(30)
 
     #wait for player table to load
     css_selector_player_stats = '#player-stats > div > div.match-content__playerstats.player-stats.match-centre__player-table-wrapper'
@@ -115,8 +115,20 @@ def get_match_stats_from_link(browser, link):
     match_date = soup.select_one(css_date)
     match_date = match_date.text.strip('\n').strip(' ').strip('\n')
 
-    match_key = ['home_team', 'away_team', 'FT_Score', 'HT_Score', 'match_date', 'home_df', 'away_df', 'home_player_ids', 'away_player_ids']
-    match_value = [home_team, away_team, FT_Score, HT_Score, match_date, home_df, away_df, home_player_ids, away_player_ids]
+    #click live to get replacement data
+    css_live_selector = '#content > div.match-centre__navigation > div > span:nth-child(3)'
+    browser.find_element_by_css_selector(css_live_selector).click()
+    #give a few seconds to load
+    time.sleep(3)
+    #wait for table
+    css_timeline = '#timeline > div'
+    wait_by_selector(browser, css_timeline)
+    html = browser.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+    replacements = [r.text for r in soup.find_all('div', {'class': 'timeline__replacement timeline__player'})]
+
+    match_key = ['home_team', 'away_team', 'FT_Score', 'HT_Score', 'match_date', 'home_df', 'away_df', 'home_player_ids', 'away_player_ids', 'replacements']
+    match_value = [home_team, away_team, FT_Score, HT_Score, match_date, home_df, away_df, home_player_ids, away_player_ids, replacements]
     match_dict = dict(zip(match_key, match_value))
 
     return(match_dict)
@@ -146,5 +158,26 @@ with open(save_path, 'wb') as f:
     
 browser.quit()
 
-for i in range(0,15):
-    print(master_dict[i]['FT_Score'])
+for i in range(1,15):
+    print(master_dict[i]['FT_Score']==master_dict[i-1]['FT_Score'])
+
+
+
+
+#from selenium import webdriver
+
+#webdriver_path = os.getcwd() + '\\Scrapers\\webdriver\\geckodriver.exe'
+#browser = webdriver.Firefox(executable_path=webdriver_path)
+#url = 'https://www.sixnationsrugby.com/report/conway-at-the-double-as-ireland-defeat-wales-in-dublin#match-stats'
+#browser.get(url)
+##time.sleep(60)
+#css_live_selector = '#content > div.match-centre__navigation > div > span:nth-child(3)'
+#browser.find_element_by_css_selector(css_live_selector).click()
+##time.sleep(5)
+#html = browser.page_source
+#soup = BeautifulSoup(html, 'html.parser')
+
+
+
+
+#browser.quit()
