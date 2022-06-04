@@ -1,11 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Analysis",
+    "\\Dashboard",
     "\\Data Cleaners",
     "\\Data Cleaners\\Cleaner_Data",
+    "\\Profile Constructor",
+    "\\Profile Constructor\\Profile_Data",
     "\\Scrapers",
     "\\Scrapers\\Scraped Data"
   ],
-  "SelectedNode": "\\geckodriver.log",
+  "SelectedNode": "\\Data Cleaners\\Cleaner_Data\\sixnations_matches.csv",
   "PreviewInSolutionExplorer": false
 }

@@ -69,7 +69,7 @@ def create_clean_df(dict, at_home):
     df['pos_num'] = [int(p.split('  ')[0]) for p in df['Player']]
     df['Player'] = [p.split('  ')[1] for p in df['Player']]
     df['is_sub'] = [1 if p>15 else 0 for p in df['pos_num']]
-    df['pos_num_y'] = df[['Player','pos_num']].apply(lambda x: get_position_subsitution(x, on_reps, off_reps, df), axis=1)
+    df['pos_num'] = df[['Player','pos_num']].apply(lambda x: get_position_subsitution(x, on_reps, off_reps, df), axis=1)
 
     df['PlayGuid'] = get_PlayGuid(dict['{0}_player_ids'.format(team)])
 
@@ -97,7 +97,7 @@ save_path =  os.getcwd() + '\\Data Cleaners\\Cleaner_Data\\sixnations_matches.cs
 master_df.to_csv(save_path)
 
 
-master_df.groupby('player').count()
+master_df.groupby('Player').count()
 
 master_df['Player'].value_counts()
 master_df['PlayGuid'].value_counts()
