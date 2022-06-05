@@ -4,3 +4,4 @@
 
 /Database/secret
 /Database/conn_pickle.pkl
+/Database/__pycache__

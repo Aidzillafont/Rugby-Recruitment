@@ -1,4 +1,4 @@
-,Player,MP,T,TA,C,P,DG,M,CA,PK(%),MK,BH(%),PM,O,BTs,Kon,TM,MT,TS(%),DT(%),TW,TC,HE,PC,OPC,SPC,LW,LS,YC,RC,at_home,pos_num,is_sub,PlayGuid
+,name,mins_played,tries,try_assists,conversions,penalty_goals,drop_goals,meters_made,carries,possession_kicked_pct,meters_kicked,balls_played_by_hand,passes_made,offloads,broken_tackles,knock_ons,tackles_made,missed_tackles,tackle_success_pct,dominant_tackles_pct,turnovers_won,turnovers_conceded,handling_errors,pens_conceded,offside_penalties,scrum_penalties,lineouts_won,lineouts_stolen,YC,RC,at_home,position_num,is_sub,playguid
 0,Hugo Keenan,80.0,0.0,0.0,0.0,0.0,0.0,45.0,7.0,0.0,88.0,81.0,10.0,0.0,0.0,1.0,4.0,1.0,80.0,0.0,0.0,3.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,15,0,HK751316
 1,Andrew Conway,62.0,2.0,0.0,0.0,0.0,0.0,60.0,6.0,0.0,49.0,77.0,1.0,0.0,3.0,0.0,2.0,0.0,100.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,14,0,AC788211
 2,Garry Ringrose,80.0,1.0,0.0,0.0,0.0,0.0,110.0,11.0,0.0,22.0,95.0,12.0,0.0,2.0,0.0,7.0,3.0,70.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,13,0,GR900605

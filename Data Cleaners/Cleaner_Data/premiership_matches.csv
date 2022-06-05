@@ -1,4 +1,4 @@
-,M,C,P,T,MT,TW,TC,DB,TA,O,CB,LW,LS,at_home,p_name,min_played,is_sub,pos_num,PlayGuid
+,meters_made,carries,passes_made,tackles_made,missed_tackles,turnovers_won,turnovers_conceded,defemders_beaten,try_assists,offloads,clean_breaks,lineouts_won,lineouts_stolen,at_home,name,mins_played,is_sub,position_num,playguid
 0,113,16,10,0,0,0,2,11,0,2,1,0,0,1,Charles Piutau,63,0,15,CP633928
 1,9,4,1,6,0,0,1,2,0,0,0,0,0,1,Niyi Adeolokun,80,0,14,NA457420
 2,34,7,6,3,2,0,2,2,0,0,0,0,0,1,Piers O'Conor,80,0,13,PO451364

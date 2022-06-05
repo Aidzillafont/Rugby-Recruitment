@@ -2,11 +2,36 @@ import os
 import pickle
 import numpy as np
 import pandas as pd
+from datetime import datetime as dt
 from tqdm import tqdm
+import sys
+##needed for debugging
+sys.path.append('.')
+from Database.db_api import db_api
 
-pickle_path = os.getcwd() + '\\Scrapers\\Scraped Data\\premiership_matches.pkl'
-with open(pickle_path, 'rb') as f:
-    loaded_dict = pickle.load(f)
+
+def renaming_fun(x):
+    #this fuction renames columns in df to better match db for upload later
+    name_dict = {
+        'p_name':'name',
+        'M':'meters_made',
+        'C':'carries',
+        'P':'passes_made',
+        'T':'tackles_made',
+        'MT':'missed_tackles',
+        'TW':'turnovers_won',
+        'TC':'turnovers_conceded',
+        'DB':'defemders_beaten',
+        'TA':'try_assists',
+        'O':'offloads',
+        'CB':'clean_breaks',
+        'LW':'lineouts_won',
+        'LS':'lineouts_stolen',
+        }
+    try:
+        return name_dict[x]
+    except KeyError:
+        return x
 
 
 def check_for_duplicates(master_dict):
@@ -98,46 +123,110 @@ def clean_df(df, list_ids, at_home):
 
     #determine minutes played and subs and add to dataframe
     p_name, min_played, is_sub, pos_num = extract_sub_data(df[['Pos','Player']].values)
-    df['p_name'] = p_name
-    df['min_played'] = min_played
+    df['name'] = p_name
+    df['mins_played'] = min_played
     df['is_sub'] = is_sub
-    df['pos_num'] = pos_num 
+    df['position_num'] = pos_num 
 
     #remove replacements column
     df.drop([p_name.index('Replacements')], inplace=True)
 
     #add in player ids
-    df['PlayGuid'] = lookup_PlayGuid_list(df['p_name'].values, list_ids)
+    df['playguid'] = lookup_PlayGuid_list(df['name'].values, list_ids)
 
     #drop reformatted columns
     df.drop(['Pos', 'Player'], axis=1, inplace=True)
 
+    #fill in 0s
     df = df.replace('-',0)
+
+    #rename columns for database
+    df.columns = map(renaming_fun, df.columns)
+
+    #reset index
+    df = df.reset_index(drop=True)
     return(df)
 
-list_of_dfs = []
+def load_to_db(year, loaded_dict):
+    #connect to db
+    db_tool = db_api()
 
-for i in tqdm(range(0, 158)):
-    if isinstance(loaded_dict[i], str):
-        print(i, loaded_dict[i], sep=':  ')
-        continue
+    #legacy
+    list_of_dfs = []
 
-    #get cleaned home and away data
-    df1 = clean_df(loaded_dict[i]['home_df'], loaded_dict[i]['home_player_ids'], 1)
-    list_of_dfs.append(df1)
+    #create compitition record
+    table = 'Comps' 
+    insert_dict = {'name': 'Premiership',
+                   'year': int(year)}
+    comp = db_tool.insert(table, **insert_dict)
 
-    df2 = clean_df(loaded_dict[i]['away_df'], loaded_dict[i]['away_player_ids'], 0)
-    list_of_dfs.append(df2)
+    for i in tqdm(range(0,len(loaded_dict))):
+        #skip empty game data
+        if isinstance(loaded_dict[i], str):
+            print(i, loaded_dict[i], sep=':  ')
+            continue
 
-master_df = pd.concat(list_of_dfs)
+        #Match Details
+        match_dict = dict((k, loaded_dict[i][k]) for k in ('match_date', 'home_team', 'away_team', 'FT_Score', 'HT_Score'))
+        table = 'Matches' 
+        p_table = 'Players'
+        pm_table = 'Player_Matches'
+        insert_dict = {'idComp': comp[0]['idComp'],
+                       'date': dt.strptime(match_dict['match_date'],  '%A %d %B %Y'),
+                       'home': match_dict['home_team'],
+                       'away': match_dict['away_team'],
+                       'FT_Score': match_dict['FT_Score'],
+                       'HT_Score': match_dict['HT_Score'],
+                       }
+        match = db_tool.insert(table, **insert_dict)
 
-master_df.reset_index(inplace = True, drop=True)
+        #home
+        df1 = clean_df(loaded_dict[i]['home_df'], loaded_dict[i]['home_player_ids'], 1)
+
+        player_dict_list = df1[['playguid','name']].T.to_dict()
+        player_match_dict_list = df1.drop(['name', 'playguid'], axis=1).T.to_dict()
+
+        for j in range(0,len(player_dict_list)):
+            player = db_tool.insert(p_table, **player_dict_list[j])
+            #player match id
+            id_dict = { 'idPlayer': player[0]['idPlayer'] , 'idMatch': match[0]['idMatch'] }
+            insert_dict = {**id_dict, **player_match_dict_list[j]}
+            db_tool.insert(pm_table, **insert_dict)
+    
+        #legacy
+        list_of_dfs.append(df1)
+
+        #away
+        df2 = clean_df(loaded_dict[i]['away_df'], loaded_dict[i]['away_player_ids'], 0)
+
+        player_dict_list = df2[['playguid','name']].T.to_dict()
+        player_match_dict_list = df2.drop(['name','playguid'], axis=1).T.to_dict()
+
+        for j in range(0,len(player_dict_list)):
+            player = db_tool.insert(p_table, **player_dict_list[j])
+            #player match id
+            id_dict = { 'idPlayer': player[0]['idPlayer'] , 'idMatch': match[0]['idMatch'] }
+            insert_dict = {**id_dict, **player_match_dict_list[j]}
+            db_tool.insert(pm_table, **insert_dict)
+
+        #legacy
+        list_of_dfs.append(df2)
+
+    #legacy
+    master_df = pd.concat(list_of_dfs)
+    master_df.reset_index(inplace = True, drop=True)
+
+    return master_df
+
+
+
+pickle_path = os.getcwd() + '\\Scrapers\\Scraped Data\\premiership_matches.pkl'
+with open(pickle_path, 'rb') as f:
+    loaded_dict = pickle.load(f)
+
+master_df = load_to_db(2022, loaded_dict)
 
 save_path =  os.getcwd() + '\\Data Cleaners\\Cleaner_Data\\premiership_matches.csv'
 
 master_df.to_csv(save_path)
 
-
-counter = master_df['PlayGuid'].value_counts().to_frame()
-
-counter[counter['PlayGuid']>10]
