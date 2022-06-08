@@ -2,27 +2,8 @@ import base64
 import os
 import pymysql
 import pickle
+import pandas as pd
 from datetime import datetime as dt
-
-#safe_path = os.getcwd() + '\\Database\\secret'
-#with open(safe_path, 'rb') as f:
-#    encoded = f.read()
-  
-#pickle_path = os.getcwd() + '\\Database\\conn_pickle.pkl'
-#with open(pickle_path, 'rb') as f:
-#    conn_dict = pickle.load(f)
-
-#conn = pymysql.connect(
-#            host=conn_dict['host'],
-#            user=conn_dict['user'], 
-#            password = base64.b64decode(encoded.decode("utf-8")),
-#            port=conn_dict['port'],
-#            db=conn_dict['dbname'],
-#            )
-
-#TODO: 
-# 1. Create loaders for six_nation and premiureship files
-# 2. create downloader to get data from player matches
 
 class db_api():
     def __init__(self):
@@ -72,8 +53,40 @@ class db_api():
 
         return self.find(table, ['*'], **insert_kwargs)
 
+    ### General finder for using the in syntax ###
+    def find_group(self, table, *return_vals, **where_kwargs):
+        #here where kwargs is a dictionary full of lists
+        col_str = ', '.join(*return_vals)
+        bool_str = ' AND '.join([str(key)+' in (' + ', '.join(['%s'] * len(value)) + ')' for key, value in where_kwargs.items()])
+        params = [value for value_list in where_kwargs.values() for value in value_list]
+    
 
-#db_tool = db_api()
+        c = self.conn.cursor(pymysql.cursors.DictCursor)
+        sql = 'Select {0} from {1} where {2}'.format(col_str, table, bool_str)
+        c.execute(sql, params)
+        return c.fetchall()
+
+
+class Report_Extractor(db_api):
+
+    def get_player_matches(self, comp, year):
+        idcomp = self.find('Comps',['idComp'], name=comp, year=year)
+        idMatches = self.find('Matches',['idMatch'],idComp=idcomp[0]['idComp'])
+        idMatches_lst = [idMatch['idMatch'] for idMatch in idMatches]
+        player_match_data = self.find_group('Player_Matches', ['*'], idMatch=idMatches_lst)
+
+        return pd.DataFrame(player_match_data)
+
+
+#rpt = Report_Extractor()
+#rpt.get_player_matches('Six Nations', 2022)
+
+#table = 'Players'
+#arg = ['name','playguid']
+#search_dict = {'idPlayer':[1,2,3,4,5],}
+
+#db_tool.find_group(table, arg, **search_dict)
+
 
 
 ##how to use insert

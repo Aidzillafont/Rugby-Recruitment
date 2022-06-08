@@ -33,7 +33,6 @@ def renaming_fun(x):
     except KeyError:
         return x
 
-
 def check_for_duplicates(master_dict):
 #duplicates from scraping can only appear sequentially
     for i in range(1,158):
@@ -69,18 +68,20 @@ def extract_sub_data(Pos_Player_Array):
         subs = player.split('  ')
 
         #check if there are any subs
-        if len(subs) == 1:
-            #no subs
+        if len(subs) == 1: #no subs
             p_name.append(subs[0])
             min_played.append(80)
 
             #issue where some subs do not have replacements data on site
+            #Note on site they will populate sub data with players not subbed
+            # when there is no sub. These players will be caught here and removed
+            # by clean_df at end
             if sub_flag:
-                is_sub.append(1)
+                #this -1 signifies not subbed in player to be removed
+                is_sub.append(-1)
                 pos_num.append(-1)
                 continue
 
-            #TODO: once data set is clean see how many subs have 80m 
             is_sub.append(0)
             pos_num.append(int(pos))
             continue
@@ -118,7 +119,51 @@ def lookup_PlayGuid_list(p_names_df, list_ids):
         PlayGuids.append(PlayGuid)
     return(PlayGuids)
 
-def clean_df(df, list_ids, at_home):
+def create_dict_special(special_list, at_home):
+    headers = special_list[2]
+    side_details = special_list[at_home]
+    dict_lst = {h: d for h, d in zip(headers, side_details)}
+    return dict_lst
+
+def add_target_values(dict_key, dict_lst, df_col, df):
+    #dictonary of known player miss spelling
+    spelling = { 'Sam Lewis': 'Samuel Lewis',
+                'Melani Nanai Vai': 'Melani Nanai',
+                'Rus Tuima': 'Rusiate Tuima',
+                'Matty Proctor': 'Matt Proctor',
+                'Dan Thomas': 'Daniel Thomas',
+                'Dan du Preez': 'Daniel du Preez',
+                'Dom Morris': 'Dominic Morris',
+                'Jamie Shillcock': 'James Shillcock',
+                'Theo McFarland': 'Theodore McFarland',
+                'Matt Cornish': 'Matthew Cornish',
+                'Val Rapava Ruskin': 'Val Rapava-Ruskin',
+                'Seb Atkinson': 'Sebastien Atkinson',
+                'Elliott Obatoyinbo': 'Elliot Obatoyinbo',
+                'Semi Radradra Waqavatu': 'Semi Radradra',
+        }
+    #penos
+    try:
+        players = [[p.split(',')[0], len(p.split(','))-1]for p in dict_lst[dict_key]]
+
+        for p in players:
+            #player name not recorded 
+            if len(p[0]<=3):
+                continue
+
+            #player name not found
+            if p[0] not in df['name'].values:
+                try:
+                    df.loc[df['name'] == spelling[p[0]]] = p[1]
+                except:
+                    print('Cannot find player {0}'.format(p[0]))
+            else:
+                df.loc[df['name'] == p[0], df_col] = p[1]
+    except:
+        #if no penalty goals in game
+        pass
+
+def clean_df(df, list_ids, at_home, target_details):
     df['at_home'] = at_home
 
     #determine minutes played and subs and add to dataframe
@@ -142,6 +187,22 @@ def clean_df(df, list_ids, at_home):
 
     #rename columns for database
     df.columns = map(renaming_fun, df.columns)
+
+    #add target detaild for penos, tries and convos
+    dict_lst = create_dict_special(target_details, at_home)
+
+    df['penalty_goals'] = 0
+    add_target_values('Penalties',dict_lst, 'penalty_goals', df)
+
+    df['tries'] = 0
+    add_target_values('Tries',dict_lst, 'tries', df)
+    #add_target_values('Penalty Tries',dict_lst, 'tries', df)
+
+    df['conversions'] = 0
+    add_target_values('Conversions',dict_lst, 'conversions', df)
+
+    #remove players who did not play or we dont know for how long
+    df = df[df['is_sub'] >= 0]
 
     #reset index
     df = df.reset_index(drop=True)
@@ -181,7 +242,8 @@ def load_to_db(year, loaded_dict):
         match = db_tool.insert(table, **insert_dict)
 
         #home
-        df1 = clean_df(loaded_dict[i]['home_df'], loaded_dict[i]['home_player_ids'], 1)
+        df1 = clean_df(loaded_dict[i]['home_df'], loaded_dict[i]['home_player_ids'],
+                      1, loaded_dict[i]['target_details'])
 
         player_dict_list = df1[['playguid','name']].T.to_dict()
         player_match_dict_list = df1.drop(['name', 'playguid'], axis=1).T.to_dict()
@@ -197,7 +259,8 @@ def load_to_db(year, loaded_dict):
         list_of_dfs.append(df1)
 
         #away
-        df2 = clean_df(loaded_dict[i]['away_df'], loaded_dict[i]['away_player_ids'], 0)
+        df2 = clean_df(loaded_dict[i]['away_df'], loaded_dict[i]['away_player_ids'], 
+                       0, loaded_dict[i]['target_details'])
 
         player_dict_list = df2[['playguid','name']].T.to_dict()
         player_match_dict_list = df2.drop(['name','playguid'], axis=1).T.to_dict()
@@ -219,7 +282,6 @@ def load_to_db(year, loaded_dict):
     return master_df
 
 
-
 pickle_path = os.getcwd() + '\\Scrapers\\Scraped Data\\premiership_matches.pkl'
 with open(pickle_path, 'rb') as f:
     loaded_dict = pickle.load(f)
@@ -229,4 +291,5 @@ master_df = load_to_db(2022, loaded_dict)
 save_path =  os.getcwd() + '\\Data Cleaners\\Cleaner_Data\\premiership_matches.csv'
 
 master_df.to_csv(save_path)
+
 

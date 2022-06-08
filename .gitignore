@@ -5,3 +5,6 @@
 /Database/secret
 /Database/conn_pickle.pkl
 /Database/__pycache__
+/notes_journal.txt
+/players.csv
+/players2.csv

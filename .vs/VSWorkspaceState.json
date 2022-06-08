@@ -2,11 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\Analysis",
+    "\\Data Cleaners",
+    "\\Data Cleaners\\Cleaner_Data",
     "\\Database",
     "\\Database\\DB_Creation",
-    "\\Profile Constructor\\Profile_Data",
-    "\\Scrapers\\Scraped Data"
+    "\\Database\\ER_Diagrams",
+    "\\Profile Constructor",
+    "\\Scrapers"
   ],
-  "SelectedNode": "\\Database\\db_api.py",
+  "SelectedNode": "\\Data Cleaners\\sixnations_games.py",
   "PreviewInSolutionExplorer": false
 }

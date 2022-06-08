@@ -114,6 +114,9 @@ def create_clean_df(dict, at_home):
     #rename columns for database
     df.columns = map(renaming_fun, df.columns)
 
+    #remove players who did not play
+    df = df[df['mins_played'] != 0]
+
     #reset index
     df = df.reset_index(drop=True)
     return(df)

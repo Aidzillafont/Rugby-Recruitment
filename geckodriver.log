@@ -1,0 +1,87 @@
+1654608503130	geckodriver	INFO	Listening on 127.0.0.1:61206
+1654608506143	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileVSPpEC"
+1654608506872	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileVSPpEC\\search.json.mozlz4", (void 0)))
+1654608508928	Marionette	INFO	Listening on port 61230
+Read port: 61230
+1654608509029	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654611667664	Marionette	INFO	Stopped listening on port 61230
+JavaScript error: chrome://remote/content/marionette/cert.js, line 55: NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsICertOverrideService.setDisableAllSecurityChecksAndLetAttackersInterceptMyData]
+1654611693149	geckodriver	INFO	Listening on 127.0.0.1:51727
+1654611696190	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileUkYDvT"
+1654611696534	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileUkYDvT\\search.json.mozlz4", (void 0)))
+1654611698096	Marionette	INFO	Listening on port 51758
+Read port: 51758
+1654611698134	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654613373639	Marionette	INFO	Stopped listening on port 51758
+
+###!!! [Parent][PGPUParent] Error: RunMessage(msgname=PGPU::Msg_ShutdownVR) Channel closing: too late to send/recv, messages will be lost
+
+1654613656122	geckodriver	INFO	Listening on 127.0.0.1:55164
+1654613659138	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofilehOC7VQ"
+1654613659478	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofilehOC7VQ\\search.json.mozlz4", (void 0)))
+1654613661207	Marionette	INFO	Listening on port 55197
+Read port: 55197
+1654613661279	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654613676247	Marionette	INFO	Stopped listening on port 55197
+
+###!!! [Parent][PGPUParent] Error: RunMessage(msgname=PGPU::Msg_ShutdownVR) Channel closing: too late to send/recv, messages will be lost
+
+1654613725784	geckodriver	INFO	Listening on 127.0.0.1:55329
+1654613728811	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileRIG6pa"
+1654613729132	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileRIG6pa\\search.json.mozlz4", (void 0)))
+1654613730657	Marionette	INFO	Listening on port 55354
+Read port: 55354
+1654613730755	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654616062279	Marionette	INFO	Stopped listening on port 55354
+
+###!!! [Parent][PGPUParent] Error: RunMessage(msgname=PGPU::Msg_ShutdownVR) Channel closing: too late to send/recv, messages will be lost
+
+1654620378136	geckodriver	INFO	Listening on 127.0.0.1:64815
+1654620381171	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofile2pwAeR"
+1654620381519	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofile2pwAeR\\search.json.mozlz4", (void 0)))
+1654620383071	Marionette	INFO	Listening on port 64844
+Read port: 64844
+1654620383114	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654622143370	Marionette	INFO	Stopped listening on port 64844
+1654624923714	geckodriver	INFO	Listening on 127.0.0.1:54484
+1654624926726	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileasXbPh"
+1654624927073	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileasXbPh\\search.json.mozlz4", (void 0)))
+1654624928717	Marionette	INFO	Listening on port 54510
+Read port: 54510
+1654624928764	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/bridge/news.js, line 156: TypeError: response is null
+1654626793115	Marionette	INFO	Stopped listening on port 54510
+
+###!!! [Parent][PGPUParent] Error: RunMessage(msgname=PGPU::Msg_ShutdownVR) Channel closing: too late to send/recv, messages will be lost
+
+1654627870271	geckodriver	INFO	Listening on 127.0.0.1:58704
+1654627873284	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileWq3mdS"
+1654627873617	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofileWq3mdS\\search.json.mozlz4", (void 0)))
+1654627875122	Marionette	INFO	Listening on port 58731
+Read port: 58731
+1654627875222	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654628388530	Marionette	INFO	Stopped listening on port 58731
+JavaScript error: chrome://remote/content/marionette/cert.js, line 55: NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsICertOverrideService.setDisableAllSecurityChecksAndLetAttackersInterceptMyData]
+1654628444614	geckodriver	INFO	Listening on 127.0.0.1:59875
+1654628447652	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofile95xaYK"
+1654628448170	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Aidan\\AppData\\Local\\Temp\\rust_mozprofile95xaYK\\search.json.mozlz4", (void 0)))
+1654628450025	Marionette	INFO	Listening on port 59900
+Read port: 59900
+1654628450120	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.premiershiprugby.com/wp-content/themes/premiership/assets/js/incrowd/fanscore/profile.js, line 32: TypeError: authToken is null
+1654630216825	Marionette	INFO	Stopped listening on port 59900

@@ -20,7 +20,6 @@ def wait_by_selector(browser, css_selector):
     finally:
         return 0
 
-
 def get_links_to_games(browser, year):
     ###
     #year must be format yyyy0-yyyy1 ie 2021-2022
@@ -55,7 +54,6 @@ def get_links_to_games(browser, year):
     print('Link file saved to', save_path, sep=': ')
 
     return(game_links)
-
 
 def get_match_stats_from_link(browser, link):
     #some links are blank
@@ -92,6 +90,15 @@ def get_match_stats_from_link(browser, link):
     home_player_ids = [(' '.join(player.p.a.text.replace('\n','').strip(' ').split()), player.p.a.get('href')) for player in soup.find_all('div', {'class': 'team__player team__player-a ta-right'})]
     away_player_ids = [(' '.join(player.p.a.text.replace('\n','').strip(' ').split()), player.p.a.get('href')) for player in soup.find_all('div', {'class': 'team__player team__player-b'})]
 
+    #Special requirement to get trys penos and conversions for premiership
+    summary = soup.find('div', {'class': 'match__summary-container py-1'})
+    header = summary.find_all('div',  {'class': 'match__header'})
+    headers = [h.text.strip('\n') for h in header]
+
+    details = summary.find_all('div',  {'class': 'team__event'})
+    home_details = [x.text.replace('\n',',').replace('  ','').replace(',,',',').replace(', ,',',').lstrip(',').split(',,')[:-1] for x in details[::2]]
+    away_details = [x.text.replace('\n',',').replace('  ','').replace(',,',',').replace(', ,',',').lstrip(',').split(',,')[:-1] for x in details[1::2]]
+    target_details = [away_details, home_details, headers]
 
     #home team
     css_home_team = '#sotic_wp_widget-197-content > div > div > div.match-performance__nav.p-1.ta-centre > span.tab.tab-nav-active'
@@ -118,8 +125,8 @@ def get_match_stats_from_link(browser, link):
     match_date = soup.select_one(css_date)
     match_date = match_date.text.strip('\n').strip(' ').strip('\n')
 
-    match_key = ['home_team', 'away_team', 'FT_Score', 'HT_Score', 'match_date', 'home_df', 'away_df', 'home_player_ids', 'away_player_ids']
-    match_value = [home_team, away_team, FT_Score, HT_Score, match_date, home_df, away_df, home_player_ids, away_player_ids]
+    match_key = ['home_team', 'away_team', 'FT_Score', 'HT_Score', 'match_date', 'home_df', 'away_df', 'home_player_ids', 'away_player_ids', 'target_details']
+    match_value = [home_team, away_team, FT_Score, HT_Score, match_date, home_df, away_df, home_player_ids, away_player_ids, target_details]
     match_dict = dict(zip(match_key, match_value))
 
     return(match_dict)
@@ -159,8 +166,7 @@ save_path =  os.getcwd() + '\\Scrapers\\Scraped Data\\premiership_matches.pkl'
 with open(save_path, 'wb') as f:
     pickle.dump(master_dict, f)
     print('Matches file saved to', save_path, sep=': ')
-    
+ 
 browser.quit()
-
 
 
