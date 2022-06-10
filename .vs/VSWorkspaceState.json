@@ -3,13 +3,10 @@
     "",
     "\\Analysis",
     "\\Data Cleaners",
-    "\\Data Cleaners\\Cleaner_Data",
-    "\\Database",
-    "\\Database\\DB_Creation",
-    "\\Database\\ER_Diagrams",
     "\\Profile Constructor",
-    "\\Scrapers"
+    "\\Scrapers",
+    "\\Scrapers\\Scraped Data"
   ],
-  "SelectedNode": "\\Data Cleaners\\sixnations_games.py",
+  "SelectedNode": "\\Scrapers\\epc_games.py",
   "PreviewInSolutionExplorer": false
 }
