@@ -3,10 +3,12 @@
     "",
     "\\Analysis",
     "\\Data Cleaners",
+    "\\Database",
+    "\\Database\\DB_Creation",
     "\\Profile Constructor",
     "\\Scrapers",
     "\\Scrapers\\Scraped Data"
   ],
-  "SelectedNode": "\\Scrapers\\epc_games.py",
+  "SelectedNode": "\\Data Cleaners\\epc_games_cleaner.py",
   "PreviewInSolutionExplorer": false
 }

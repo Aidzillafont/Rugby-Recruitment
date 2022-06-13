@@ -294,16 +294,3 @@ save_path =  os.getcwd() + '\\Data Cleaners\\Cleaner_Data\\premiership_matches.c
 
 master_df.to_csv(save_path)
 
-
-for i  in loaded_dict:
-    if isinstance(loaded_dict[i], str):
-            print(i, loaded_dict[i], sep=':  ')
-            continue
-
-    if loaded_dict[i]['FT_Score'] == '43 - 27':
-        print(loaded_dict[i]['FT_Score'], i)
-
-
-loaded_dict[155]['target_details'][1]
-
-loaded_dict[155]['home_df'][1]

@@ -3,10 +3,15 @@ import os
 import math
 from tqdm import tqdm
 import numpy as np
+import sys
+##needed for debugging
+sys.path.append('.')
+from Database.db_api import Report_Extractor
 
+rpt = Report_Extractor()
+df = rpt.get_player_matches('Six Nations', 2022)
 
-filepath = os.getcwd() + '\\Data Cleaners\\Cleaner_Data\\sixnations_matches.csv'
-df = pd.read_csv(filepath, index_col=0)
+cols_to_transform = df.columns[3:-4]
 
 def frequency_transformation(x):
     #last minute subs
