@@ -77,6 +77,17 @@ class Report_Extractor(db_api):
 
         return pd.DataFrame(player_match_data)
 
+    def get_matches(self, comp, year):
+        idcomp = self.find('Comps',['idComp'], name=comp, year=year)
+        match_data = self.find('Matches',['*'],idComp=idcomp[0]['idComp'])
+        
+        return pd.DataFrame(match_data)
+
+    def get_players_from_list(self, player_list):
+         players_data = self.find_group('Players', ['*'], idPlayer=player_list)
+         return(pd.DataFrame(players_data))
+
+
 
 #rpt = Report_Extractor()
 #rpt.get_player_matches('Six Nations', 2022)

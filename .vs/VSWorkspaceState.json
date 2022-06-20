@@ -2,13 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\Analysis",
-    "\\Data Cleaners",
     "\\Database",
     "\\Database\\DB_Creation",
-    "\\Profile Constructor",
-    "\\Scrapers",
-    "\\Scrapers\\Scraped Data"
+    "\\Profile Constructor"
   ],
-  "SelectedNode": "\\Data Cleaners\\epc_games_cleaner.py",
+  "SelectedNode": "\\Analysis\\elo_rating.py",
   "PreviewInSolutionExplorer": false
 }
