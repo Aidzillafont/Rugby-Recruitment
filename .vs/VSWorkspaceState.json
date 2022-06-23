@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Analysis",
-    "\\Database",
     "\\Database\\DB_Creation",
-    "\\Profile Constructor"
+    "\\Scrapers\\Scraped Data"
   ],
-  "SelectedNode": "\\Analysis\\elo_rating.py",
+  "SelectedNode": "\\Analysis\\supervised.py",
   "PreviewInSolutionExplorer": false
 }

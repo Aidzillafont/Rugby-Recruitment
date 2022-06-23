@@ -32,53 +32,76 @@ def calc_elo_delta(Oa, Ob, Sa, Sb):
     elo_delta_b = 32*(Sb-Eb)
     return (elo_delta_a, elo_delta_b)
 
-rpt = Report_Extractor()
 
-comp = 'Six Nations'
-year = 2022
+def add_elo_score(match_df, player_match_df):
+    match_df['home_wld'] = match_df['FT_Score'].apply(lambda x: home_win_lose_or_draw(x))
+    plyr_lst = [x for x in player_match_df['idPlayer'].unique()]
 
-df_m = rpt.get_matches(comp, year)
-df_pm = rpt.get_player_matches(comp, year)
+    rpt = Report_Extractor()
+    df_p = rpt.get_players_from_list(plyr_lst)
+    
+    #merge dfs
+    df = pd.merge(player_match_df, match_df, left_on='idMatch', right_on='idMatch')
+    df = pd.merge(df, df_p, left_on='idPlayer', right_on='idPlayer')
 
-df_m['home_wld'] = df_m['FT_Score'].apply(lambda x: home_win_lose_or_draw(x))
+    #start all players at 1200
+    df['elo_rating'] = 1200
 
-plyr_lst = [x for x in df_pm['idPlayer'].unique()]
-df_p = rpt.get_players_from_list(plyr_lst)
+    #elo score is updated by R* = R + 32*(S-E)
+    #S is actual score i.e 1 for win, 0.5 for draw and 0 for lose
+    #E is expected score calculated by 
+    #E = Q/Q+Qo 
+    #Q = 10^(R/100) and Qo = 10^(Ro/400)
 
-df = pd.merge(df_pm, df_m, left_on='idMatch', right_on='idMatch')
-df = pd.merge(df, df_p, left_on='idPlayer', right_on='idPlayer')
-#start all players at 1200
-df['elo_rating'] = 1200
-#elo score is updated by R* = R + 32*(S-E)
-#S is actual score i.e 1 for win, 0.5 for draw and 0 for lose
-#E is expected score calculated by 
-#E = Q/Q+Qo 
-#Q = 10^(R/100) and Qo = 10^(Ro/400)
-#needs to be done once
-df['S_Score'] = df[['at_home','home_wld']].apply(player_actual_score, axis=1)
-#update after each match
-df['Q_score'] = 10**(df['elo_rating'].values/400)
-
-for idMatch in df['idMatch'].unique():
-    #update all Q scores on latest elos
+    #needs to be done once
+    df['S_Score'] = df[['at_home','home_wld']].apply(player_actual_score, axis=1)
+    #update after each match
     df['Q_score'] = 10**(df['elo_rating'].values/400)
-    #get match events
-    df_match = df[df['idMatch']==idMatch]
-    for pos_num in range(1,16):
-        #get players for position
-        df_players = df_match[df_match['position_num'] == pos_num]
-        df_grp = df_players[['at_home','Q_score','S_Score']].groupby(['at_home']).agg('mean')
-        delta_a, delta_h = calc_elo_delta(df_grp['Q_score'][0], df_grp['Q_score'][1], df_grp['S_Score'][0], df_grp['S_Score'][1])
-        #Need to update the PLAYERS ELO for all games....multiple updates here should update player table really
-        home_idx = df['idPlayer'].isin(df_players['idPlayer'][df_players['at_home']==1])
-        away_idx = df['idPlayer'].isin(df_players['idPlayer'][df_players['at_home']==0])
-        df.loc[home_idx, 'elo_rating'] += delta_h
-        df.loc[away_idx, 'elo_rating'] += delta_a
-    #TODO: add deltas to elo
+
+    for idMatch in tqdm(df['idMatch'].unique()):
+        #update all Q scores on latest elos
+        df['Q_score'] = 10**(df['elo_rating'].values/400)
+
+        #get match events
+        df_match = df[df['idMatch']==idMatch]
+
+        #go through each position
+        for pos_num in range(1,16):
+            #get players for position
+            df_players = df_match[df_match['position_num'] == pos_num]
+
+            #take average opponent and player scores if subs
+            df_grp = df_players[['at_home','Q_score','S_Score']].groupby(['at_home']).agg('mean')
+
+            #calc away and home elo change
+            delta_a, delta_h = calc_elo_delta(df_grp['Q_score'][0], df_grp['Q_score'][1], df_grp['S_Score'][0], df_grp['S_Score'][1])
+        
+            #Need to update the PLAYERS ELO for all games
+            home_player_ids = df_players['idPlayer'][df_players['at_home']==1].values
+            away_player_ids = df_players['idPlayer'][df_players['at_home']==0].values
+
+            #weight delta by mins played
+            for idPlayer in home_player_ids:
+                df.loc[df['idPlayer']==idPlayer, 'elo_rating'] += delta_h * (df_players['mins_played'][df_players['idPlayer']==idPlayer].values)/80
+
+            for idPlayer in away_player_ids:
+                df.loc[df['idPlayer']==idPlayer, 'elo_rating'] += delta_a * (df_players['mins_played'][df_players['idPlayer']==idPlayer].values)/80
 
 
-df.to_csv('players_elo.csv')
+    return df
 
-#possible extensions weight player delta by mins played and features
+
+
+
+#rpt = Report_Extractor()
+
+#comp = 'Six Nations'
+#year = 2022
+
+#df_m = rpt.get_matches(comp, year)
+#df_pm = rpt.get_player_matches(comp, year)
+
+
+#df = add_elo_score(df_m, df_pm)
 
 
