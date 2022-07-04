@@ -21,7 +21,7 @@ def renaming_fun(x):
         'MT':'missed_tackles',
         'TW':'turnovers_won',
         'TC':'turnovers_conceded',
-        'DB':'defemders_beaten',
+        'DB':'defenders_beaten',
         'TA':'try_assists',
         'O':'offloads',
         'CB':'clean_breaks',
@@ -293,4 +293,6 @@ master_df = load_to_db(2022, loaded_dict)
 save_path =  os.getcwd() + '\\Data Cleaners\\Cleaner_Data\\premiership_matches.csv'
 
 master_df.to_csv(save_path)
+
+loaded_dict[1]['home_df'].columns
 

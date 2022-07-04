@@ -20,6 +20,9 @@ def position_num_map(x):
     return pos_map[x]
 
 def frequency_transformation(x):
+    if x.isnull().values.any():
+        return None
+
     #last minute subs
     x[1] = 10 if x[1] <= 10 else x[1]
 

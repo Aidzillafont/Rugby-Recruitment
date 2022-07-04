@@ -67,6 +67,20 @@ class db_api():
         return c.fetchall()
 
 
+    ### A General Update Function 
+    def update(self, table, dict_set, **where_kwargs):
+        set_str = ', '.join([str(key) + '=%s' for key in dict_set.keys()])
+        bool_str = ' AND '.join([str(key)+' in (' + ', '.join(['%s'] * len(value)) + ')' for key, value in where_kwargs.items()])
+        params = [value for value in dict_set.values()] + [value for value_list in where_kwargs.values() for value in value_list]
+
+        c = self.conn.cursor(pymysql.cursors.DictCursor)
+        sql = 'Update {0} set {1} where {2}'.format(table, set_str, bool_str)
+        c.execute(sql, params)
+        self.conn.commit()
+
+        return self.find_group(table, ['*'], **where_kwargs)
+
+
 class Report_Extractor(db_api):
 
     def get_player_matches(self, comp, year):
@@ -87,7 +101,11 @@ class Report_Extractor(db_api):
          players_data = self.find_group('Players', ['*'], idPlayer=player_list)
          return(pd.DataFrame(players_data))
 
+#How to use update
+#rpt = Report_Extractor()
 
+#where_dict = {'idPlayer': [2,5,6,7]}
+#rpt.update('Players', {'m_tries':5, 's_tries':3}, **where_dict )
 
 #rpt = Report_Extractor()
 #rpt.get_player_matches('Six Nations', 2022)

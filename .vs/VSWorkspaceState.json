@@ -2,7 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\Analysis",
-    "\\Database\\DB_Creation",
+    "\\Data Cleaners",
+    "\\Data Files",
+    "\\Profile Constructor",
+    "\\Scrapers",
     "\\Scrapers\\Scraped Data"
   ],
   "SelectedNode": "\\Analysis\\supervised.py",

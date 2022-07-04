@@ -48,6 +48,9 @@ print(
     "explained variance ratio (first two components): %s"
     % str(pca[-1].explained_variance_ratio_)
 )
+print('of which the largest weighed feature is')
+for i in range(0, len(pca[-1].components_)):
+    print('PC-%s : ' % str(i), features[pca[-1].components_[i].argmax()])
 
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots()

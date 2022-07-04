@@ -4,6 +4,9 @@ import math
 from tqdm import tqdm
 import numpy as np
 import sys
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 ##needed for debugging
 sys.path.append('.')
 from Database.db_api import Report_Extractor
@@ -50,8 +53,7 @@ def show_feature_imps(features, target, df, position):
     df_F_imp = pd.DataFrame(F_imp, columns = ['feature', 'importance'])
 
     #plot of most important features
-    import seaborn as sns
-    import matplotlib.pyplot as plt
+    
     ax = sns.barplot(x="importance", y="feature", data=df_F_imp)
     plt.title('Feature Importances for {0}, Accuracy={1}'.format(position, np.round(cv.best_score_,4)))
     plt.show()
@@ -68,7 +70,7 @@ year = 2022
 df_m = rpt.get_matches(comp, year)
 df_pm = rpt.get_player_matches(comp, year)
 
-#df = add_elo_score(df_m, df_pm)
+df = add_elo_score(df_m, df_pm)
 
 #find columns not all na
 cols_with_data = [col for col in df.columns if not df[col].isna().all()]
@@ -98,8 +100,11 @@ for feature in tqdm(features):
 
 target = 'elo_rating'
 
+all_vars = [target, *features]
 
-
+#get players average agg values accross games played 
+df_grp = df.groupby(['idPlayer', 'position'])[all_vars].agg('mean')
+df = df_grp.reset_index()
 
 show_feature_imps(features, target, df, 'Prop')
 
