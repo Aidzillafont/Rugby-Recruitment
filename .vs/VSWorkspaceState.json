@@ -3,11 +3,10 @@
     "",
     "\\Analysis",
     "\\Data Cleaners",
-    "\\Data Files",
-    "\\Profile Constructor",
-    "\\Scrapers",
-    "\\Scrapers\\Scraped Data"
+    "\\Database",
+    "\\Database\\DB_Creation",
+    "\\Database\\ER_Diagrams"
   ],
-  "SelectedNode": "\\Analysis\\supervised.py",
+  "SelectedNode": "\\Data Cleaners\\generate_team_match_stats.py",
   "PreviewInSolutionExplorer": false
 }

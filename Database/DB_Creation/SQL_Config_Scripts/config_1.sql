@@ -37,6 +37,9 @@ CREATE TABLE `Players` (
   `m_clean_breaks` Decimal(10,4),
   `s_clean_breaks` Decimal(10,4),
   `elo_score` Decimal(10,4),
+  `defense_score` Decimal(10,4),
+  `attack_score` Decimal(10,4),
+  `open_score` Decimal(10,4),
   PRIMARY KEY (`idPlayer`)
 );
 
@@ -94,6 +97,19 @@ CREATE TABLE `Player_Matches` (
   `clean_breaks` Decimal(10,4),
   `at_home` int,
   `is_sub` int,
+  `tackles_made_team` Decimal(10,4),
+  `missed_tackles_team` Decimal(10,4),
+  `turnovers_won_team` Decimal(10,4),
+  `defense_score_team` Decimal(10,4),
+  `tries_team` Decimal(10,4),
+  `try_assists_team` Decimal(10,4),
+  `conversions_team` Decimal(10,4),
+  `penalty_goals_team` Decimal(10,4),
+  `attack_score_team` Decimal(10,4),
+  `passes_made_team` Decimal(10,4),
+  `meters_made_team` Decimal(10,4),
+  `carries_team` Decimal(10,4),
+  `open_score_team` Decimal(10,4),
   FOREIGN KEY (`idPlayer`) REFERENCES `Players`(`idPlayer`),
   FOREIGN KEY (`idMatch`) REFERENCES `Matches`(`idMatch`)
 );

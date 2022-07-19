@@ -32,7 +32,6 @@ def calc_elo_delta(Oa, Ob, Sa, Sb):
     elo_delta_b = 32*(Sb-Eb)
     return (elo_delta_a, elo_delta_b)
 
-
 def add_elo_score(match_df, player_match_df):
     match_df['home_wld'] = match_df['FT_Score'].apply(lambda x: home_win_lose_or_draw(x))
     plyr_lst = [x for x in player_match_df['idPlayer'].unique()]
@@ -105,3 +104,4 @@ def add_elo_score(match_df, player_match_df):
 #df = add_elo_score(df_m, df_pm)
 
 
+#TODO: Refactor ELO im doing it in a not so clean way

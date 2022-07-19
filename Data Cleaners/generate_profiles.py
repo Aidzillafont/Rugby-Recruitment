@@ -8,6 +8,7 @@ import sys
 sys.path.append('.')
 from Database.db_api import Report_Extractor
 from Analysis.functions import frequency_transformation
+from Analysis.elo_rating import add_elo_score
 
 def renaming_fun(x):
     #this fuction renames columns in df to better match db for upload later
@@ -45,7 +46,8 @@ def renaming_fun(x):
          'defenders_beaten_mean' : 'm_defenders_beaten',
          'defenders_beaten_std' : 's_defenders_beaten',
          'clean_breaks_mean' : 'm_clean_breaks',
-         'clean_breaks_std' : 's_clean_breaks'
+         'clean_breaks_std' : 's_clean_breaks',
+         'elo_rating' : 'elo_score'
         }
     try:
         return name_dict[x]
@@ -54,10 +56,15 @@ def renaming_fun(x):
 
 def load_updates(df, rpt):
     #undo groupby re index and leveling
+    try:
+        df = df.reset_index('position_num_y')
+    except:
+        pass
+
     if df.columns.nlevels == 2:
         df.columns = df.columns.map('_'.join).str.strip('_')
 
-    df = df.reset_index('position_num_y')
+
 
     #map columns for sql
     df.columns = map(renaming_fun,df.columns)
@@ -76,6 +83,17 @@ def load_updates(df, rpt):
 rpt = Report_Extractor()
 
 df = pd.DataFrame(rpt.find('Player_Matches', ['*'], true=True))
+
+#loading scores
+df['defense_score'] = (df['mins_played']/80)*pd.to_numeric(df['defense_score_team'])
+df['attack_score'] = (df['mins_played']/80)*pd.to_numeric(df['attack_score_team'])
+df['open_score'] = (df['mins_played']/80)*pd.to_numeric(df['open_score_team'])
+
+df_scores = df.groupby(['idPlayer'])[['defense_score','attack_score','open_score']].mean()
+
+#adding elo
+df_m = pd.DataFrame(rpt.find('Matches', ['*'], true=True))
+df_elo = add_elo_score(df_m, player_match_df=df)
 
 cols_to_trans = ['tries','try_assists', 'conversions', 'penalty_goals', 
        'meters_made', 'carries', 'passes_made', 'offloads', 'tackles_made', 
@@ -97,4 +115,10 @@ df_game_count= df.groupby(['idPlayer','position_num_y'])['mins_played'].agg(['co
 load_updates(df_profile_dist, rpt)
 load_updates(df_game_count, rpt)
 
-#TODO: upload ELO
+#group and load elo rating 
+df_grp_elo = df_elo.groupby(['idPlayer'])['elo_rating'].mean()
+
+load_updates(df_grp_elo.to_frame('elo_score'), rpt)
+
+#load scores 
+load_updates(df_scores, rpt)
