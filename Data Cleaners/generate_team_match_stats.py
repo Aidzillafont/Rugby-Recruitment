@@ -77,10 +77,10 @@ def calc_team_score(df_matches, df_player_matches, score_type='defense'):
         df_full['{0}_score'.format(score_type)] = df_scaled[actions].sum(axis=1)/ df_scaled['Score']
         return(df_full)
     else:
-        df_full['{0}_score'.format(score_type)] = df_scaled['Score'] / df_scaled[actions].sum(axis=1)
+        df_full['{0}_score'.format(score_type)] = df_scaled[actions].sum(axis=1) #df_scaled['Score'] / define attack action of team
         return(df_full)
 
-
+#log for high value 
 rpt = Report_Extractor()
 
 df = pd.DataFrame(rpt.find('Player_Matches', ['*'], true=True))
