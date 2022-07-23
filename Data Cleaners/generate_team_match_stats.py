@@ -45,7 +45,7 @@ def calc_team_score(df_matches, df_player_matches, score_type='defense'):
         df_matches['1'] = df_matches['FT_Score'].str.split('-', expand=True)[0]
         df_matches['0'] = df_matches['FT_Score'].str.split('-', expand=True)[1]
     elif score_type == 'open':
-        actions = ['passes_made', 'meters_made', 'carries']
+        actions = ['passes_made', 'meters_made', 'carries', 'defenders_beaten', 'clean_breaks', 'offloads']
         #we DO NOT reverse home and away here to map opposition score to teams defensive performance
         df_matches['1'] = df_matches['FT_Score'].str.split('-', expand=True)[0]
         df_matches['0'] = df_matches['FT_Score'].str.split('-', expand=True)[1]

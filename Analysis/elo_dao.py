@@ -8,26 +8,29 @@ import sys
 sys.path.append('.')
 from Database.db_api import Report_Extractor
 
-from sklearn.decomposition import PCA
-from sklearn.impute import SimpleImputer 
-from sklearn.inspection import permutation_importance
-
+#plotting
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.feature_selection import SelectKBest
 
 #preprocess steps
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer 
 
 #pipline 
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.model_selection import GridSearchCV
-
 from sklearn.model_selection import train_test_split, GridSearchCV
+
 # performace analysers
 from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.inspection import permutation_importance
+
+#models 
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
+from xgboost import XGBClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
 
 
 def plot_permutation_importance(best_estimator, X, y, features, label, best_score):
@@ -260,12 +263,6 @@ plt.figure(figsize=(12,6))
 sns.heatmap(corr.loc[: , ['m_defenders_beaten'] ], annot=True, yticklabels=1 )
 plt.show()
 
-df.info()
-
-from sklearn.naive_bayes import GaussianNB
-from xgboost import XGBClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
 
 rf_results_elo = run_model_and_evaluate(GaussianNB(),
                                     df, numeric_feat, cata_feat, 'elo_label',
